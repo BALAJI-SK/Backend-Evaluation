@@ -18,8 +18,8 @@
   "docker": {
     "username": "postgres",
     "password": "postgres",
-    "database": "users",
-    "host": "db",
+    "database": "postgres",
+    "host": "contentdb",
     "dialect": "postgres",
     "port": 5432
   }

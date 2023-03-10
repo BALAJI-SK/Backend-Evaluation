@@ -19,4 +19,4 @@ COPY . .
 
 
 # start app
-CMD ["npm", "run","db:seedup"]
+CMD ["npm", "run","db:up"]

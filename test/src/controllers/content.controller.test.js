@@ -4,7 +4,7 @@ const contentService = require('../../../src/services/content.service');
 
 
 describe('Content Controller', () => {
-	describe('getContentById', () => {    
+	describe('getContentById', () => {
 		it('should get a whole content ', async () => {
 			const req = {
 				params: {
@@ -21,9 +21,9 @@ describe('Content Controller', () => {
 			expect(res.status).toHaveBeenCalledWith(200);
 			expect(res.json).toHaveBeenCalledWith(undefined);
 		});
-		
+
 	});
-            
+
 
 	describe('createContent', () => {
 		it('should create a content', async () => {
@@ -140,8 +140,9 @@ describe('Content Controller', () => {
 			expect(res.json).toHaveBeenCalledWith(undefined);
 		}
 		);
-        
+
 
 	});
 });
-    
+
+
