@@ -10,8 +10,10 @@ contentRoute.put('/update/:id', contentController.updateContent);
 
 contentRoute.get('/get', contentController.getAllContent);
 
-contentRoute.get('/get/:id', contentController.getContentById);
+contentRoute.get('/get/all', contentController.getContentById);
 
 contentRoute.post('/create/field/:id', contentController.createContentField);
+
+contentRoute.delete('/delete/:id', contentController.deleteContent);
 
 module.exports = contentRoute;

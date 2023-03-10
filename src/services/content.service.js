@@ -30,7 +30,7 @@ const updateContent = async (contentName,contentField ,contentId) => {
 			{
 				where: {id: contentId}
 			});
-			throw new HttpError(404, 'Content not updated');
+			return 'Failed';
 			
 			
 		}		else{
@@ -61,7 +61,10 @@ const updateContent = async (contentName,contentField ,contentId) => {
 
 const getAllContent = async () => {
 	try{
-		const contentGotFromDB = await content.findAll();
+		const contentGotFromDB = await content.findAll({
+			attributes: ['id', 'contentName', 'contentField']
+		}
+		);
 		return contentGotFromDB;
 	}catch(err){
 		throw new HttpError(500, err.message);
@@ -69,15 +72,13 @@ const getAllContent = async () => {
 };
 
 
-const getContentById = async (contentId) => {
+const getContentById = async () => {
 	try{
-		const contentGotFromDB = await content.findOne({
+		const contentGotFromDB = await content.findAll({
 			attributes: ['id', 'contentName', 'contentField'],
-			where: {id: contentId},
 			include: [{
 				model: collection,
 				as : 'collection',
-				where : {contentId},
 				attributes: ['id',  'collectionFields']
 			}]
 		});
@@ -117,4 +118,39 @@ const createContentField = async (contentId,contentField) => {
 
 
 
-module.exports = {  createContent , updateContent ,getAllContent ,getContentById, createContentField};
+const deleteContent = async (contentId,FieldName) => {
+	try{
+		const contentData = await content.findOne({
+			attributes: ['id','contentField',],
+			where: {id: contentId},
+		});
+		delete contentData.contentField[FieldName];
+		const getData = await collection.findAll({
+			attributes: ['id', 'collectionFields','contentId'],
+			where: {contentId},
+		});
+		const contentdata = contentUtils.deleteContent(getData ,FieldName);
+		await collection.bulkCreate(contentdata, {
+			updateOnDuplicate: ['collectionFields'],
+			returning: false
+
+		}
+		);
+		const updateDb = await content.update({
+			contentField: contentData.contentField
+		},
+		{
+			where: {id: contentId}
+		});
+		
+		return updateDb;
+	}
+	catch(err){
+		throw new HttpError(500, err.message);
+	}
+};
+
+
+
+
+module.exports = {  createContent , updateContent ,getAllContent ,getContentById, createContentField ,deleteContent};
