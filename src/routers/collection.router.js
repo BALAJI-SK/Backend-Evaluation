@@ -1,15 +1,15 @@
-const authValidator = require('../middlewares/validator');
+
 const collectionController = require('../controllers/collection.controller');
 
 
 const collectionRoute = require('express').Router();
 
 
-collectionRoute.post('/create',authValidator, collectionController.createCollection);
+collectionRoute.post('/create', collectionController.createCollection);
 
-collectionRoute.put('/update/:id',authValidator, collectionController.updateCollection);
+collectionRoute.put('/update/:id', collectionController.updateCollection);
 
-collectionRoute.delete('/delete/:id',authValidator, collectionController.deleteCollection);
+collectionRoute.delete('/delete/:id', collectionController.deleteCollection);
 
 
 
